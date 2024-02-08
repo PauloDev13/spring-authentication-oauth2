@@ -6,18 +6,21 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
+
+    @Column(name = "restaurant_id")
     private Long restaurantId;
+
     private Boolean active;
 
     @Transient
+    @OneToMany
     private List<MenuItem> menuItems;
 
-    @Transient
-    private Restaurant restaurant;
 }

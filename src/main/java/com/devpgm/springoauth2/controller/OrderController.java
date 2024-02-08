@@ -35,7 +35,7 @@ public class OrderController {
     }
 
     @PostMapping // authenticated users can access
-    public Order createOrder(Order order) {
+    public Order createOrder(@RequestBody Order order) {
         orderRepository.save(order);
         List<OrderItem> orderItems = order.getOrderItems();
         orderItems.forEach(orderItem -> {
