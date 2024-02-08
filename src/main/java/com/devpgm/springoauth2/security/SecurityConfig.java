@@ -24,13 +24,15 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, "/restaurants/public/list").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/restaurants/public/menu/").permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                "/restaurants/public/list",
+                                "/restaurants/public/menu/").permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
-//                .oauth2ResourceServer(oauth2 -> oauth2.opaqueToken(Customizer.withDefaults()))
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(Customizer.withDefaults())
-//                        .jwt(jwt -> jwt.jwtAuthenticationConverter(new JwtAuthConverter()))
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
