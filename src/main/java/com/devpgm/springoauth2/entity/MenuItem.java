@@ -9,13 +9,13 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
+@Table(name = "menu_item")
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @ManyToOne
-    private Menu menu;
+    private Long menuId;
 
     private BigDecimal price;
 }

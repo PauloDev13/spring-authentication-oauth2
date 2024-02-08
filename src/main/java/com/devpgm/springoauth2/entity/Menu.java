@@ -14,13 +14,11 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column(name = "restaurant_id")
-    private Long restaurantId;
-
     private Boolean active;
 
-    @Transient
-    @OneToMany
+    private Long restaurantId;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuId")
     private List<MenuItem> menuItems;
 
 }

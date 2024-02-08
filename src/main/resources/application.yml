@@ -5,12 +5,6 @@ spring:
         issuer-uri: http://localhost:8080/realms/pgm
         jwt:
           jwk-set-uri: "http://localhost:8080/realms/pgm/protocol/openid-connect/certs"
-  #        opaquetoken:
-#          client-id: pgm_manager
-#          client-secret: 7DsSZMk3h1CrFzqPlAHyqsQa3e46hXZ9
-#          introspection-uri: http://localhost:8080/realms/pgm/protocol/openid-connect/token/introspect
-  #        jwt:
-
 
   datasource:
     url: jdbc:mariadb://localhost:3306/api_oauth2
@@ -23,6 +17,11 @@ spring:
       ddl-auto: update
     show-sql: true
 
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: pgm_manager
+      client-secret: 7DsSZMk3h1CrFzqPlAHyqsQa3e46hXZ9
 
 server:
   port: 8081

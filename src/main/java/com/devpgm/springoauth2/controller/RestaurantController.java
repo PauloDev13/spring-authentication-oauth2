@@ -6,19 +6,20 @@ import com.devpgm.springoauth2.entity.Restaurant;
 import com.devpgm.springoauth2.repositoriy.MenuItemRepository;
 import com.devpgm.springoauth2.repositoriy.MenuRepository;
 import com.devpgm.springoauth2.repositoriy.RestaurantRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("restaurants")
-@EnableMethodSecurity
+@SecurityRequirement(name = "Keycloak")
 public class RestaurantController {
     private final RestaurantRepository restaurantRepository;
     private final MenuRepository menuRepository;
@@ -48,13 +49,14 @@ public class RestaurantController {
     @RequestMapping("/menu") // manager can access
     @PreAuthorize("hasRole('USER')")
     public Menu createMenu(@RequestBody Menu menu) {
-        menuRepository.save(menu);
-        menu.getMenuItems().forEach(menuItem -> {
-            menuItem.setId(menu.id);
+        Menu savedMenu = menuRepository.save(menu);
+        List<MenuItem> menuItems = new ArrayList<>();
+        menuItems.forEach(menuItem -> {
+            menuItem.setMenuId(savedMenu.id);
             menuItemRepository.save(menuItem);
         });
 
-        return menu;
+        return savedMenu;
     }
 
     @PutMapping // owner can access
@@ -65,6 +67,5 @@ public class RestaurantController {
         menuItem.get().setPrice(price);
         menuItemRepository.save(menuItem.get());
         return menuItem.get();
-
     }
 }
